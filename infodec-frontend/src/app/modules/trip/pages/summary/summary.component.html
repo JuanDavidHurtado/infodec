@@ -1,0 +1,59 @@
+<app-menu (changeLang)="onLangChange($event)"></app-menu>
+
+<div class="container py-3">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title mb-3">{{ t('title') }}</h5>
+
+            <div *ngIf="loading" class="d-flex align-items-center gap-2">
+                <span class="spinner-border" role="status"></span>
+                <span>Loading...</span>
+            </div>
+
+            <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg
+                }}</div>
+
+            <ng-container *ngIf="!loading && !errorMsg && data">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div><strong>{{ t('country') }}:</strong> {{
+                            data.country }}</div>
+                        <div><strong>{{ t('city') }}:</strong> {{ data.city
+                            }}</div>
+                        <div>
+                            <strong>{{ t('budget') }}:</strong>
+                            {{ (data.budget_cop ?? 0) | number:'1.0-2':'es-CO'
+                            }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div><strong>{{ t('currency') }}:</strong> {{
+                            data.currency_symbol }} ({{ data.currency_code
+                            }})</div>
+                        <div><strong>{{ t('rate') }}:</strong> {{ data.rate |
+                            number:'1.0-6' }}</div>
+                        <div><strong>{{ t('converted') }}:</strong> {{
+                            data.converted_fmt }}</div>
+                    </div>
+                </div>
+
+                <hr class="my-3" />
+
+                <div>
+                    <strong>{{ t('weather') }}:</strong>
+                    <span *ngIf="data.weather_c !== null"> {{ data.weather_c }}
+                        °C</span>
+                    <span *ngIf="data.weather_desc"> — {{ data.weather_desc
+                        }}</span>
+                </div>
+            </ng-container>
+
+            <div class="d-flex mt-4">
+                <button class="btn btn-outline-secondary" (click)="back()">{{
+                    t('back') }}</button>
+                <button class="btn btn-primary ms-auto" (click)="restart()">{{
+                    t('restart') }}</button>
+            </div>
+        </div>
+    </div>
+</div>
